@@ -16,7 +16,6 @@ import org.hectormoraga.placestovisit.client.utils.GeometryUtils;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.impl.CoordinateArraySequence;
-//import org.hectormoraga.placestovisit.client.service.TouristicAttractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MapController {
 	@Autowired
 	private CountryService theCountryService;
-	//@Autowired
-	//private TouristicAttractionService theTAService;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	private List<Country> countries;
 	private Country country;
@@ -65,14 +62,16 @@ public class MapController {
 			.map(coor -> new Point(new CoordinateArraySequence(coor), factory))
 			.toList();
 			
-		Point centroid = GeometryUtils.getCentroid(coordinates);
+		GeometryUtils geomUtils = new GeometryUtils(coordinates);
 		
 		logger.log(Level.INFO, "searchTAs: {0}", touristicAttractions.toString());
 
 		Map<String, Object> attrs = new HashMap<>();		
 		attrs.put("touristicAttractions", touristicAttractions);
-		attrs.put("mapCentroid", centroid);
-		attrs.put("country", country);
+		attrs.put("mapCentroid", geomUtils.getCentroid());
+		attrs.put("mapBox", geomUtils.getBox());
+		attrs.put("mapZoom", geomUtils.getZoom());
+		attrs.put("country", country);		
 		
 		theModel.addAllAttributes(attrs);
 		
