@@ -75,7 +75,9 @@ html, body {
 			<div id="map" style="width: 800px; height: 600px;"></div>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
-		const map = L.map('map').setView([0, 0], 2);
+		var centroidX = /*[[${mapCentroid.X}]]*/0;
+		var centroidY = /*[[${mapCentroid.Y}]]*/0;
+		const map = L.map('map').setView([centroidX, centroidY], 2);
 		/*[# th:each="TAS : ${touristicAttractions}"]*/
 		var xcoord = /*[[${TAS.ubicacion.coordinates[0].x}]]*/0;
 		var ycoord = /*[[${TAS.ubicacion.coordinates[0].y}]]*/0;

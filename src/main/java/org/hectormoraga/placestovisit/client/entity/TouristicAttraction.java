@@ -2,6 +2,7 @@ package org.hectormoraga.placestovisit.client.entity;
 
 import javax.annotation.Resource;
 
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 import org.n52.jackson.datatype.jts.GeometryDeserializer;
@@ -51,6 +52,10 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 		this.ubicacion = ubicacion;
 	}
 
+	public Coordinate[] getCoodinates() {
+		return ubicacion.getCoordinates();
+	}
+	
 	@Override
 	public String toString() {
 		return "TouristicAttraction [id=" + id + ", nombre=" + nombre + ", ubicacion=" + ubicacion + "]";
