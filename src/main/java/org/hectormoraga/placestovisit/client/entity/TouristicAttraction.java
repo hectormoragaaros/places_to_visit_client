@@ -1,10 +1,13 @@
 package org.hectormoraga.placestovisit.client.entity;
 
+import static org.locationtech.jts.geom.Geometry.TYPENAME_POINT;
+
 import javax.annotation.Resource;
 
-import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.n52.jackson.datatype.jts.GeometryDeserializer;
 import org.n52.jackson.datatype.jts.GeometrySerializer;
 import org.springframework.hateoas.RepresentationModel;
@@ -19,11 +22,12 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 	@JsonSerialize(using = GeometrySerializer.class)
 	@JsonDeserialize(using = GeometryDeserializer.class, as = Point.class)
 	private Geometry ubicacion;
+	private static final GeometryFactory geomFactory = new GeometryFactory();
 	
 	public TouristicAttraction(Integer id, String nombre, Geometry ubicacion) {
 		this.id = id;
 		this.nombre = nombre;
-		this.ubicacion = ubicacion;
+		this.ubicacion= ubicacion;
 	}
 	
 	public TouristicAttraction() {}
@@ -52,8 +56,18 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 		this.ubicacion = ubicacion;
 	}
 
-	public Coordinate[] getCoodinates() {
-		return ubicacion.getCoordinates();
+	public Point getPoint() {
+		if (ubicacion.getGeometryType().equals(TYPENAME_POINT)) {
+			return new Point(new CoordinateArraySequence(ubicacion.getCoordinates()) , ubicacion.getFactory());
+		}
+		
+		return new Point(null, geomFactory);
+	}
+	
+	public String getCoordinates() {
+		Point p = getPoint();
+		
+		return "(" + p.getX() + ", " + p.getY() + ")";
 	}
 	
 	@Override

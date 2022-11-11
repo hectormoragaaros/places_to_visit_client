@@ -13,9 +13,7 @@ import org.hectormoraga.placestovisit.client.entity.Country;
 import org.hectormoraga.placestovisit.client.entity.TouristicAttraction;
 import org.hectormoraga.placestovisit.client.service.CountryService;
 import org.hectormoraga.placestovisit.client.utils.GeometryUtils;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,13 +51,11 @@ public class MapController {
 	@PostMapping("/searchTAs")
 	public String searchTAs(Model theModel, @ModelAttribute Country country) throws URISyntaxException {
 		country = theCountryService.getCountryById(country.getId());
-		GeometryFactory factory = new GeometryFactory();
 		
 		List<TouristicAttraction> touristicAttractions = theCountryService.getTouristicAttractionsByCountryId(country.getId());
 
 		List<Point> coordinates = touristicAttractions.stream()
-			.map(ta -> ta.getUbicacion().getCoordinates())
-			.map(coor -> new Point(new CoordinateArraySequence(coor), factory))
+			.map(TouristicAttraction::getPoint)
 			.toList();
 			
 		GeometryUtils geomUtils = new GeometryUtils(coordinates);
@@ -77,6 +73,4 @@ public class MapController {
 		
 		return "index";
 	}
-	
-	
 }

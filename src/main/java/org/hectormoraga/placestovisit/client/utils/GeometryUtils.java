@@ -102,6 +102,11 @@ public class GeometryUtils {
 						String.valueOf(mapBox[1].getX()),
 						String.valueOf(mapBox[1].getY())
 				});
+		// if mapbox size is 0, default zoom is 2
+		if (Math.abs(mapBox[0].getX()-mapBox[1].getX())<=1E-7) {
+			return 15;
+		}
+		
 		double ry1 = Math.log(Math.abs((Math.sin(Math.toRadians(mapBox[0].getY()))+1)
 				/Math.cos(Math.toRadians(mapBox[0].getY()))));
 		logger.log(Level.INFO, "ry1={0}", String.valueOf(ry1));
@@ -114,9 +119,9 @@ public class GeometryUtils {
 		logger.log(Level.INFO, "centerY={0}", String.valueOf(centerY));
 		double resolutionHorizontal = (mapBox[1].getX()-mapBox[0].getX())/800;
 		logger.log(Level.INFO, "resolutionHorizontal={0}", String.valueOf(resolutionHorizontal));
-		double vy0 = Math.log(Math.tan(Math.PI*(0.25+centerY/360)));
+		double vy0 = Math.log(Math.abs(Math.tan(Math.PI*(0.25+centerY/360))));
 		logger.log(Level.INFO, "vy0={0}", String.valueOf(vy0));
-		double vy1 = Math.log(Math.tan(Math.PI*(0.25 + mapBox[1].getY()/360)));
+		double vy1 = Math.log(Math.abs(Math.tan(Math.PI*(0.25 + mapBox[1].getY()/360))));
 		logger.log(Level.INFO, "vy1={0}", String.valueOf(vy1));
         double viewHeightHalf = 300.0;
         double zoomFactorPowered = viewHeightHalf/(40.7436654315252*(vy1 - vy0));
