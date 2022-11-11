@@ -12,7 +12,8 @@ import javax.annotation.PostConstruct;
 import org.hectormoraga.placestovisit.client.entity.Country;
 import org.hectormoraga.placestovisit.client.entity.TouristicAttraction;
 import org.hectormoraga.placestovisit.client.service.CountryService;
-//import org.hectormoraga.placestovisit.client.service.TouristicAttractionService;
+import org.hectormoraga.placestovisit.client.utils.GeometryUtils;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MapController {
 	@Autowired
 	private CountryService theCountryService;
-	//@Autowired
-	//private TouristicAttractionService theTAService;
 	private Logger logger = Logger.getLogger(getClass().getName());
 	private List<Country> countries;
 	private Country country;
@@ -52,15 +51,26 @@ public class MapController {
 	@PostMapping("/searchTAs")
 	public String searchTAs(Model theModel, @ModelAttribute Country country) throws URISyntaxException {
 		country = theCountryService.getCountryById(country.getId());
+		
 		List<TouristicAttraction> touristicAttractions = theCountryService.getTouristicAttractionsByCountryId(country.getId());
+
+		List<Point> coordinates = touristicAttractions.stream()
+			.map(TouristicAttraction::getPoint)
+			.toList();
+			
+		GeometryUtils geomUtils = new GeometryUtils(coordinates);
+		
 		logger.log(Level.INFO, "searchTAs: {0}", touristicAttractions.toString());
 
 		Map<String, Object> attrs = new HashMap<>();		
 		attrs.put("touristicAttractions", touristicAttractions);
-		attrs.put("country", country);
+		attrs.put("mapCentroid", geomUtils.getCentroid());
+		attrs.put("mapBox", geomUtils.getBox());
+		attrs.put("mapZoom", geomUtils.getZoom());
+		attrs.put("country", country);		
 		
 		theModel.addAllAttributes(attrs);
 		
 		return "index";
-	}	
+	}
 }
