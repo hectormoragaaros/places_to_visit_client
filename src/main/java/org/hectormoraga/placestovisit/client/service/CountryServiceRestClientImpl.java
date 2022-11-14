@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.hectormoraga.placestovisit.client.entity.Country;
 import org.hectormoraga.placestovisit.client.entity.TouristicAttraction;
@@ -51,7 +52,11 @@ public class CountryServiceRestClientImpl implements CountryService {
 				.follow("countries")
 				.toObject(new CollectionModelType<EntityModel<Country>>() {});
 
-		return (countries!=null)?countries.getContent().stream().map(EntityModel::getContent).toList():
+		return (countries!=null)?
+				countries.getContent()
+						 .stream()
+						 .map(EntityModel::getContent)
+						 .collect(Collectors.toList()):
 			new ArrayList<>();
 	}
 
@@ -91,6 +96,9 @@ public class CountryServiceRestClientImpl implements CountryService {
 			return new ArrayList<>();
 		}
 
-		return touristicAttractions.getContent().stream().map(EntityModel::getContent).toList();
+		return touristicAttractions.getContent().
+				stream().
+				map(EntityModel::getContent)
+				.collect(Collectors.toList());
 	}
 }

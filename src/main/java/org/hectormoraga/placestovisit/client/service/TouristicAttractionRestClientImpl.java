@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.hectormoraga.placestovisit.client.entity.TouristicAttraction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +51,12 @@ public class TouristicAttractionRestClientImpl implements TouristicAttractionSer
 				.follow("touristicAttractions")
 				.toObject(new CollectionModelType<EntityModel<TouristicAttraction>>() {});
 		
-		return (theTAs!=null)?theTAs.getContent().stream()
+		return (theTAs!=null)?
+				theTAs.getContent()
+				.stream()
 				.map(EntityModel::getContent)
-				.toList():new ArrayList<>();		
+				.collect(Collectors.toList())
+				:new ArrayList<>();
 	}
 
 	@Override

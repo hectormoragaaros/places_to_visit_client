@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -56,7 +57,7 @@ public class MapController {
 
 		List<Point> coordinates = touristicAttractions.stream()
 			.map(TouristicAttraction::getPoint)
-			.toList();
+			.collect(Collectors.toList());
 			
 		GeometryUtils geomUtils = new GeometryUtils(coordinates);
 		
