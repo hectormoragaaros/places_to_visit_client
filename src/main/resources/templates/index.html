@@ -48,8 +48,8 @@ html, body {
 				</form>
 			</div>
 			<div class="col-xs-6 col-sm-8 col-md-10 col-lg-10" th:if="${touristicAttractions!=null}">
-				<table class="table table-responsive table-bordered table-striped">
-					<caption style="caption-side: top">Listado de atracciones turísticas</caption>
+				<table class="table table-responsive table-bordered table-striped" style="width: 100%">
+					<caption style="caption-side: top; align-self: center">Listado de atracciones turísticas</caption>
 					<thead>
 						<tr>
 							<th>País</th>
@@ -59,11 +59,11 @@ html, body {
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="touristicAttraction,iterator : ${touristicAttractions}">
+						<tr th:each="touristicAttraction : ${touristicAttractions}">
 							<td th:text="${country.nombre}"></td>
 							<td th:text="${touristicAttraction.nombre}"></td>
 							<td th:text="${touristicAttraction.coordinates}"></td>
-							<td th:text="${iterator.index}"></td>
+							<td th:text="${touristicAttraction.url}"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -89,17 +89,16 @@ html, body {
 		var ycoord = /*[[${TAS.ubicacion.coordinates[0].y}]]*/0;
 		console.log(taname + ": (" + xcoord + "," + ycoord+")");
 		var i = /*[[${TASStat.index}]]*/0;
+
 		marker[i] = L.marker([xcoord, ycoord])
 		.bindTooltip(taname, {
 			permanent: true,
 			direction: 'right'
 		})
+		.on('click', function onclick(e){
+			window.open(/*[[${TAS.url}]]*/"https://en.wikipedia.org/wiki/Earth");
+		})
 		.addTo(map)
-		.on('click', onclick);
-		
-		function onclick(e){
-			window.open("https://en.wikipedia.org/wiki/Hallgr%C3%ADmskirkja");
-		}
 		/*[/]*/
 	/*]]>*/
 	</script>

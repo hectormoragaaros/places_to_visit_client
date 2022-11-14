@@ -24,12 +24,14 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 	@JsonSerialize(using = GeometrySerializer.class)
 	@JsonDeserialize(using = GeometryDeserializer.class, as = Point.class)
 	private Geometry ubicacion;
+	private String url;
 	private static final GeometryFactory geomFactory = new GeometryFactory();
 	
-	public TouristicAttraction(Integer id, String nombre, Geometry ubicacion) {
+	public TouristicAttraction(Integer id, String nombre, Geometry ubicacion, String url) {
 		this.id = id;
 		this.nombre = nombre;
 		this.ubicacion= ubicacion;
+		this.url = url;
 	}
 	
 	public TouristicAttraction() {}
@@ -58,6 +60,14 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 		this.ubicacion = ubicacion;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+	
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 	public Point getPoint() {
 		if (ubicacion.getGeometryType().equals(TYPENAME_POINT)) {
 			return new Point(new CoordinateArraySequence(ubicacion.getCoordinates()) , ubicacion.getFactory());
@@ -71,17 +81,12 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 		
 		return "(" + p.getX() + ", " + p.getY() + ")";
 	}
-	
-	@Override
-	public String toString() {
-		return "TouristicAttraction [id=" + id + ", nombre=" + nombre + ", ubicacion=" + ubicacion + "]";
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(id, nombre, ubicacion);
+		result = prime * result + Objects.hash(id, nombre, ubicacion, url);
 		return result;
 	}
 
@@ -98,7 +103,12 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 		}
 		TouristicAttraction other = (TouristicAttraction) obj;
 		return Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre)
-				&& Objects.equals(ubicacion, other.ubicacion);
+				&& Objects.equals(ubicacion, other.ubicacion) && Objects.equals(url, other.url);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "TouristicAttraction [id=" + id + ", nombre=" + nombre + ", ubicacion=" + ubicacion + ", url=" + url
+				+ "]";
+	}
 }
