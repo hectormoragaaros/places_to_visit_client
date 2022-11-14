@@ -2,6 +2,8 @@ package org.hectormoraga.placestovisit.client.entity;
 
 import static org.locationtech.jts.geom.Geometry.TYPENAME_POINT;
 
+import java.util.Objects;
+
 import javax.annotation.Resource;
 
 import org.locationtech.jts.geom.Geometry;
@@ -74,4 +76,29 @@ public class TouristicAttraction extends RepresentationModel<TouristicAttraction
 	public String toString() {
 		return "TouristicAttraction [id=" + id + ", nombre=" + nombre + ", ubicacion=" + ubicacion + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(id, nombre, ubicacion);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof TouristicAttraction)) {
+			return false;
+		}
+		TouristicAttraction other = (TouristicAttraction) obj;
+		return Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre)
+				&& Objects.equals(ubicacion, other.ubicacion);
+	}
+	
 }

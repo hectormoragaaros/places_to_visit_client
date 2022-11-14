@@ -2,6 +2,7 @@ package org.hectormoraga.placestovisit.client.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,20 +44,21 @@ public class TouristicAttractionRestClientImpl implements TouristicAttractionSer
 		logger.log(Level.INFO, "in getAllTouristicAttractions(): Calling REST API {0}", crmRestUrl);
 		
 		Traverson client = new Traverson(new URI(crmRestUrl), MediaTypes.HAL_JSON);	
-
-		CollectionModel<EntityModel<TouristicAttraction>> theTAs = client
+		CollectionModel<EntityModel<TouristicAttraction>> theTAs = null;
+		
+		theTAs = client
 				.follow("touristicAttractions")
 				.toObject(new CollectionModelType<EntityModel<TouristicAttraction>>() {});
 		
-		return theTAs.getContent().stream()
+		return (theTAs!=null)?theTAs.getContent().stream()
 				.map(EntityModel::getContent)
-				.toList();		
+				.toList():new ArrayList<>();		
 	}
 
 	@Override
 	public TouristicAttraction getTouristicAttractionById(Integer id) {
 		logger.log(Level.INFO, "in getTouristicAttractionById({0}): Calling REST API {1}",
-				new String[] {id.toString(), crmRestUrl});
+				new Object[] {id, crmRestUrl});
 
 		Map<String, Integer> vars = new HashMap<>();
 		vars.put("id", id);

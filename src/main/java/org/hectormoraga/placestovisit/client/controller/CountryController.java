@@ -1,6 +1,7 @@
 package org.hectormoraga.placestovisit.client.controller;
 
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,13 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CountryController {
 	private Logger logger = Logger.getLogger(getClass().getName());
-
+	private static String index = "index";
+	
 	@Autowired
 	private CountryService countryService;
 
 	@GetMapping("/countries")
 	public ModelAndView getAllCountries() throws URISyntaxException {
-		ModelAndView theModel = new ModelAndView("index");
+		ModelAndView theModel = new ModelAndView(index);
 		
 		List<Country> theCountries = countryService.getCountries();
 		theModel.addObject("countries", theCountries);
@@ -33,7 +35,7 @@ public class CountryController {
 	
 	@GetMapping("/countries/{id}")
 	public ModelAndView getCountryById(@PathVariable("id") Integer id) {
-		ModelAndView theModel = new ModelAndView("index");
+		ModelAndView theModel = new ModelAndView(index);
 		
 		Country country = countryService.getCountryById(id);
 		country.setId(id);
@@ -45,11 +47,11 @@ public class CountryController {
 
 	@GetMapping("/countries/{id}/touristicAttractions")
 	public ModelAndView getAllTouristicAttractionsById(@PathVariable Integer id) throws URISyntaxException {
-		ModelAndView theModel = new ModelAndView("index");
+		ModelAndView theModel = new ModelAndView(index);
 
 		List<TouristicAttraction> touristicAttractions = countryService.getTouristicAttractionsByCountryId(id);
 		logger.log(Level.INFO, "getAllTouristicAttractionsById({0}): {1}",
-				new String[] {id.toString(), touristicAttractions.toString()});
+				new Object[] {id, Arrays.toString(touristicAttractions.toArray())});
 		theModel.addObject("touristicAttractions", touristicAttractions);
 		
 		return theModel;

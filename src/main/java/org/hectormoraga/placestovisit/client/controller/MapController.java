@@ -60,7 +60,7 @@ public class MapController {
 			
 		GeometryUtils geomUtils = new GeometryUtils(coordinates);
 		
-		logger.log(Level.INFO, "searchTAs: {0}", touristicAttractions.toString());
+		logger.log(Level.INFO, "searchTAs: {0}", touristicAttractions);
 
 		Map<String, Object> attrs = new HashMap<>();		
 		attrs.put("touristicAttractions", touristicAttractions);

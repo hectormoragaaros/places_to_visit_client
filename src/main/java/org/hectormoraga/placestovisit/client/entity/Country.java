@@ -1,5 +1,7 @@
 package org.hectormoraga.placestovisit.client.entity;
 
+import java.util.Objects;
+
 import javax.annotation.Resource;
 
 import org.springframework.hateoas.RepresentationModel;
@@ -57,4 +59,29 @@ public class Country extends RepresentationModel<Country> {
 		return "Country [id=" + id.toString() + ", nombre=" + nombre + ", alpha2Code=" + alpha2Code + ", alpha3Code=" + alpha3Code
 				+ "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(alpha2Code, alpha3Code, id, nombre);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof Country)) {
+			return false;
+		}
+		Country other = (Country) obj;
+		return Objects.equals(alpha2Code, other.alpha2Code) && Objects.equals(alpha3Code, other.alpha3Code)
+				&& Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre);
+	}
+	
 }
