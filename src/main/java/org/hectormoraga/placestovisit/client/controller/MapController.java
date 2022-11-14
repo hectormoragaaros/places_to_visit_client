@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/map")
@@ -50,28 +51,28 @@ public class MapController {
 	}
 	
 	@PostMapping("/searchTAs")
-	public String searchTAs(Model theModel, @ModelAttribute Country country) throws URISyntaxException {
-		country = theCountryService.getCountryById(country.getId());
+	public ModelAndView searchTAs(@ModelAttribute Country country) throws URISyntaxException {
+		ModelAndView theModel = new ModelAndView("index");
 		
+		country = theCountryService.getCountryById(country.getId());
 		List<TouristicAttraction> touristicAttractions = theCountryService.getTouristicAttractionsByCountryId(country.getId());
-
 		List<Point> coordinates = touristicAttractions.stream()
 			.map(TouristicAttraction::getPoint)
-			.collect(Collectors.toList());
-			
+			.collect(Collectors.toList());			
 		GeometryUtils geomUtils = new GeometryUtils(coordinates);
 		
 		logger.log(Level.INFO, "searchTAs: {0}", touristicAttractions);
 
 		Map<String, Object> attrs = new HashMap<>();		
+		attrs.put("countries", countries);
 		attrs.put("touristicAttractions", touristicAttractions);
 		attrs.put("mapCentroid", geomUtils.getCentroid());
 		attrs.put("mapBox", geomUtils.getBox());
 		attrs.put("mapZoom", geomUtils.getZoom());
 		attrs.put("country", country);		
 		
-		theModel.addAllAttributes(attrs);
+		theModel.addAllObjects(attrs);
 		
-		return "index";
+		return theModel;
 	}
 }

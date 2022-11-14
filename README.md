@@ -44,10 +44,10 @@ Los temas que más me costó resolver corresponden a:
 
 ## Referencias
 
-<a id="ref1" href="https://medium.com/@hermanmaleiane/spring-boot-thymeleaf-leaflet-js-mapping-corona-virus-a8309c5a0b6d">Spring Boot+Thymeleaf+ Leaflet Js Mapping Corona Virus</a>
-<a id="ref2" href="https://leafletjs.com/examples/quick-start/">Leaflet - A quickstart guide</a>
-<a id="ref3" href="https://leafletjs.com/examples/extending/extending-2-layers.html">Extending Leaflet, new Layers</a>
-<a id="ref4" href="https://stackoverflow.com/questions/25687816/setting-up-a-javascript-variable-from-spring-model-by-using-thymeleaf">Setting up a JavaScript variable from Spring model by using Thymeleaf</a>
-<a id="ref5" href="https://stackoverflow.com/questions/45713934/jackson-deserialize-geojson-point-in-spring-boot">Jackson deserialize GeoJson Point in Spring Boot</a>
-<a id="ref6" href="https://stackoverflow.com/questions/41352424/thymeleaf-foreach-loop-in-javascript">Thymeleaf forEach loop in JavaScript</a>
-<a id="ref7" href="https://gis.stackexchange.com/questions/19632/how-to-calculate-the-optimal-zoom-level-to-display-two-or-more-points-on-a-map">How to calculate the optimal zoom-level to display two or more points on a map</a>
+- [1] <a id="ref1" href="https://medium.com/@hermanmaleiane/spring-boot-thymeleaf-leaflet-js-mapping-corona-virus-a8309c5a0b6d">Spring Boot+Thymeleaf+ Leaflet Js Mapping Corona Virus</a>
+- [2] <a id="ref2" href="https://leafletjs.com/examples/quick-start/">Leaflet - A quickstart guide</a>
+- [3] <a id="ref3" href="https://leafletjs.com/examples/extending/extending-2-layers.html">Extending Leaflet, new Layers</a>
+- [4] <a id="ref4" href="https://stackoverflow.com/questions/25687816/setting-up-a-javascript-variable-from-spring-model-by-using-thymeleaf">Setting up a JavaScript variable from Spring model by using Thymeleaf</a>
+- [5] <a id="ref5" href="https://stackoverflow.com/questions/45713934/jackson-deserialize-geojson-point-in-spring-boot">Jackson deserialize GeoJson Point in Spring Boot</a>
+- [6] <a id="ref6" href="https://stackoverflow.com/questions/41352424/thymeleaf-foreach-loop-in-javascript">Thymeleaf forEach loop in JavaScript</a>
+- [7] <a id="ref7" href="https://gis.stackexchange.com/questions/19632/how-to-calculate-the-optimal-zoom-level-to-display-two-or-more-points-on-a-map">How to calculate the optimal zoom-level to display two or more points on a map</a>
