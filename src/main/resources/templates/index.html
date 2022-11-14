@@ -24,18 +24,16 @@ html, body {
 	margin: 0;
 }
 
-.leaflet-container {
-	height: 600px;
+#map {
 	width: 800px;
-	max-width: 100%;
-	max-height: 100%;
+	height: 600px;
 }
 </style>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-6 col-sm-4 col-lg-2">
+			<div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
 				<form method="post" autocomplete="off" action="#"
 					th:action="@{/map/searchTAs}" th:object="${country}">
 					<label class="control-label" for="countryId" th:text="Country"></label>
@@ -49,7 +47,7 @@ html, body {
 					<button class="btn btn-primary" type="submit">Search</button>
 				</form>
 			</div>
-			<div class="col-xs-6 col-sm-8 col-lg-10" th:if="${touristicAttractions!=null}">
+			<div class="col-xs-6 col-sm-8 col-md-10 col-lg-10" th:if="${touristicAttractions!=null}">
 				<table class="table table-responsive table-bordered table-striped">
 					<caption style="caption-side: top">Listado de atracciones turísticas</caption>
 					<thead>
@@ -72,29 +70,37 @@ html, body {
 			</div>
 		</div>
 		<div class="row" th:if="${touristicAttractions!=null}">
-			<div id="map" style="width: 800px; height: 600px;"></div>
+			<div id="map"></div>
 	<script th:inline="javascript">
+		var marker = [];
 	/*<![CDATA[*/
 		var centroidX = /*[[${mapCentroid.X}]]*/0;
 		var centroidY = /*[[${mapCentroid.Y}]]*/0;
 		var zoom = /*[[${mapZoom}]]*/2;
 		const map = L.map('map').setView([centroidX, centroidY], zoom);
+		const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			minZoom: 0,
+			maxZoom: 20,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map);
 		/*[# th:each="TAS : ${touristicAttractions}"]*/
 		var taname = /*[[${TAS.nombre}]]*/null;
 		var xcoord = /*[[${TAS.ubicacion.coordinates[0].x}]]*/0;
 		var ycoord = /*[[${TAS.ubicacion.coordinates[0].y}]]*/0;
 		console.log(taname + ": (" + xcoord + "," + ycoord+")");
-		var marker = L.marker([xcoord, ycoord])
+		var i = /*[[${TASStat.index}]]*/0;
+		marker[i] = L.marker([xcoord, ycoord])
 		.bindTooltip(taname, {
 			permanent: true,
 			direction: 'right'
 		})
-		.addTo(map);
+		.addTo(map)
+		.on('click', onclick);
+		
+		function onclick(e){
+			window.open("https://en.wikipedia.org/wiki/Hallgr%C3%ADmskirkja");
+		}
 		/*[/]*/
-	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 17,
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-	}).addTo(map);		
 	/*]]>*/
 	</script>
 			
